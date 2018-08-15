@@ -1,0 +1,1 @@
+document.write('<h1>我是一个标签</h1>');
