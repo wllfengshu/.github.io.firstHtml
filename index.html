@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
-		<meta charset="utf-8" />
-		<title>探究github仓库是否可以运行js脚本</title>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+		<script type="text/javascript" src="js/sql.js"></script>
 		<link rel="stylesheet" href="css/css.css" />
-		<script type="text/javascript" src="js/js.js" ></script>
 	</head>
+
 	<body>
-		
+		div>
+		<table id="tb">
+			<tr>
+				<td>第一个</td>
+				<td>第二个</td>
+			</tr>
+		</table>
+		<input id="button" type="button" value="O(∩_∩)O" />
+		</div>
 	</body>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script>
+		$(function() {
+			$.ajax({
+				type: "GET",
+				url: "file/fr.txt",
+				dataType: "json",
+				success: function(data) {
+					console.info(data);
+					for(var i = 0; i < data.length; i++) {
+						var trTD = "<tr><td>" + data[i].optionKey + "</td><td>" + data[i].optionValue + "</td></tr>";
+						$("#tb").append(trTD);
+					}
+				}
+			});
+		});
+	</script>
+
 </html>

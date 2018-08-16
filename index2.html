@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+
+		<script type="text/javascript" src="js/sql.js"></script>
+
+	</head>
+
+	<body>
+		<input type="text" id="name" placeholder="k" />
+		<input type="text" id="age" placeholder="v" />
+		<button type="button" onclick="save()">保存</button>
+
+		<!--<button name="test" type="button" value="val" onclick="save()">Button Text</button>-->
+
+		<input id="uploadInput" type="file" onchange="getfile()">
+
+	</body>
+
+	<script>
+		function save() {
+			var db = new SQL.Database();
+			db.run("CREATE TABLE hello (a int, b char);");
+			var name = document.getElementById('name').value;
+			var age = document.getElementById('age').value;
+			db.run("insert into hello values(0,'" + name + "');");
+			//			db.run("insert into hello values(1,'"+age+"')");
+			//			db.run("INSERT INTO hello (name,age) VALUES ("+name+","+age+");")
+			var res = db.exec("SELECT * FROM hello");
+			console.log(res)
+			console.log(res[0])
+			
+			//save to local file
+            var data = db.export();
+            var arraybuff = data.buffer;
+            var blob = new Blob([arraybuff]);
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;           
+            a.download = 'test.db';
+            a.click();
+            window.URL.revokeObjectURL(url);
+		}
+
+		function getfile() {
+
+			var files = document.getElementById("uploadInput").files; //document.getElementById("uploadInput").value;
+
+			var file = files[0];
+
+			var fr = new FileReader();
+
+			fr.onload = function() {
+
+				var Uints = new Uint8Array(fr.result);
+
+				var db = new window.SQL.Database(Uints);
+
+				var res = db.exec("SELECT 列2 FROM test");
+
+				for(i = 0; i < res[0].values.length; i++)
+
+				{ //query values
+
+					console.log(res[0].values[i] + ' ');
+
+				}
+
+			}
+
+			fr.readAsArrayBuffer(file);
+
+		}
+	</script>
+
+</html>

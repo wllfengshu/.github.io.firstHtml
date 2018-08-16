@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+		<script type="text/javascript" src="js/sql.js"></script>
+		<link rel="stylesheet" href="css/css.css" />
+	</head>
+	<body>
+		<div>
+			<h2>测试sqllite数据库</h2>
+			<hr />
+			<button type="button">添加用户</button>
+			<table>
+				<thead>
+					<tr>编号</tr>
+					<tr>姓名</tr>
+					<tr>年龄</tr>
+					<tr>操作</tr>
+				</thead>
+				<tbody>
+					<tr class="tr_node"></tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+	<script>
+		//创建sqllite实例，获取数据
+		function file(){
+		var fso;
+		try { 
+			fso=new ActiveXObject("Scripting.FileSystemObject"); 
+		} catch (e) { 
+			alert("当前浏览器不支持");
+			return;
+		} 
+		var file = fso.createtextfile("./sqllitedb.db",true);
+
+			var fr = new FileReader();
+
+			fr.onload = function() {
+
+				var Uints = new Uint8Array(fr.result);
+
+				var db = new window.SQL.Database(Uints);
+
+				var res = db.exec("SELECT 列2 FROM test");
+
+				for(i = 0; i < res[0].values.length; i++)
+
+				{ //query values
+
+					console.log(res[0].values[i] + ' ');
+
+				}
+
+			}
+
+			fr.readAsArrayBuffer(file);
+	</script>
+</html>
